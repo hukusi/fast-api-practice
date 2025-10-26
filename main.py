@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query, Header, Response
 from typing import Annotated, Union
 from pydantic import BaseModel
+import asyncio
 
 app = FastAPI()
 # items = ["Tシャツ", "スカート", "ブーツ", "コート"]
@@ -45,8 +46,13 @@ lt -> より小さい(指定した値を含まない)
 #   print(f"データを登録します: {item.name}, {item.price}, {item.description}")
 #   return item
   
-@app.get("/sample/")
-def read_sample(response: Response ,authorization: Union[str, None] = Header(default=None)):
-  print(authorization)
-  response.headers["custom-header"] = "12345"
-  return {"message": "ヘッダー情報を取得しました"}
+# @app.get("/sample/")
+# def read_sample(response: Response ,authorization: Union[str, None] = Header(default=None)):
+#   print(authorization)
+#   response.headers["custom-header"] = "12345"
+#   return {"message": "ヘッダー情報を取得しました"}
+
+@app.get("/sleep_time/")
+async def sleep_time(sec: int):
+  await asyncio.sleep(sec)
+  return {"message": f"{sec}秒"}
